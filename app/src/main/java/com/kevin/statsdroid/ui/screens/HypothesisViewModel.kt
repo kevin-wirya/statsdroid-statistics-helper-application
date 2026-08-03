@@ -11,20 +11,43 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HypothesisViewModel @Inject constructor(
-    private val repository:StatsRepository
-):ViewModel(){
-    private val _uiState=MutableStateFlow(HypothesisUiState())
-    val uiState:StateFlow<HypothesisUiState>=_uiState.asStateFlow()
+    private val repository: StatsRepository
+) : ViewModel() {
+    private val _uiState = MutableStateFlow(HypothesisUiState())
+    val uiState: StateFlow<HypothesisUiState> = _uiState.asStateFlow()
+    init {calculateZTest()}
+    fun onSampleMeanChanged(input: String) {
+        _uiState.update{it.copy(sampleMeanInput=input) }
+        calculateZTest()
+    }
+    fun onPopMeanChanged(input: String) {
+        _uiState.update{it.copy(popMeanInput=input) }
+        calculateZTest()
+    }
+    fun onPopStdDevChanged(input: String) {
+        _uiState.update{it.copy(popStdDevInput=input)}
+        calculateZTest()
+    }
+    fun onNChanged(input: String) {
+        _uiState.update{it.copy(nInput=input)}
+        calculateZTest()
+    }
+    fun onAlphaChanged(input: String) {
+        _uiState.update{it.copy(alphaInput=input)}
+        calculateZTest()
+    }
+    fun onTwoTailedChanged(isTwoTailed: Boolean) {
+        _uiState.update{it.copy(isTwoTailed = isTwoTailed)}
+        calculateZTest()
+    }
     fun calculateZTest() {
-        val state=_uiState.value
+        val state = _uiState.value
         val sampleMean=state.sampleMeanInput.toDoubleOrNull()?: return
         val popMean=state.popMeanInput.toDoubleOrNull()?: return
         val popStdDev=state.popStdDevInput.toDoubleOrNull()?: return
         val n=state.nInput.toIntOrNull()?: return
         val alpha=state.alphaInput.toDoubleOrNull()?: return
-        val res=repository.performZTestOneSample(
-            sampleMean,popMean,popStdDev,n,alpha,state.isTwoTailed
-        )
-        _uiState.update{it.copy(result=res)}
+        val res=repository.performZTestOneSample(sampleMean,popMean,popStdDev,n,alpha,state.isTwoTailed)
+        _uiState.update {it.copy(result = res) }
     }
 }
