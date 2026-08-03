@@ -107,9 +107,10 @@ statsdroid-statistics-helper-application/
 
 ## 📷 Application Screenshots
 
-| Distribution Lookup | Hypothesis Testing | CLT Simulation | Reference Materials |
-| :---: | :---: | :---: | :---: |
-| *Lookup Screen* | *Hypothesis Screen* | *CLT Histogram Visualizer* | *Hybrid Course Viewer* |
+| Distribution Lookup | Hypothesis Testing | CLT Simulation | Reference Materials | About Developer |
+| :---: | :---: | :---: | :---: | :---: |
+| <img src="screenshots/lookup-screen.jpeg" width="180" alt="Lookup Screen"/> | <img src="screenshots/hypothesis-screen.jpeg" width="180" alt="Hypothesis Screen"/> | <img src="screenshots/clt-screen.jpeg" width="180" alt="CLT Screen"/> | <img src="screenshots/reference-screen.jpeg" width="180" alt="Reference Screen"/> | <img src="screenshots/about-me-screen.jpeg" width="180" alt="About Me Screen"/> |
+| *Probability Distribution Lookup* | *Visual Hypothesis Tester* | *CLT Interactive Visualizer* | *Hybrid Course Viewer* | *About Developer & Vision* |
 
 ---
 
