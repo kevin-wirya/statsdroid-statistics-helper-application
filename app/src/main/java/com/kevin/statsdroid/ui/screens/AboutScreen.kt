@@ -185,13 +185,13 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "StatsDroid lahir dari semangat eksplorasi pengembangan aplikasi Android Native berbasis Jetpack Compose dan Clean Architecture, sekaligus sebagai sarana untuk mendalami kembali materi Probabilita dan Statistika. Probstat sering kali dipandang sebelah mata, padahal materi ini merupakan fondasi vital yang menjembatani logika deterministik dengan ketidakpastian—menjadi tulang punggung bagi Artificial Intelligence, Machine Learning, optimasi sistem, hingga penelitian ilmiah.",
+                    text = "StatsDroid lahir dari keinginan pembuat untuk mengeksplorasi pengembangan aplikasi Android Native berbasis Jetpack Compose dan Clean Architecture yang sebelumnya belum pernah pengembang pelajari sebelumnya lewat materi perkuliahan. Aplikasi ini lahir sebagai sarana untuk mendalami kembali materi Probabilita dan Statistika. Probstat sering kali dipandang sebelah mata, padahal materi ini merupakan fondasi yang menjembatani logika ddan ketidakpastian dalam bidang AI, ML, optimasi sistem, hingga riset.",
                     style = MaterialTheme.typography.bodyMedium,
                     lineHeight = 22.sp
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Melalui aplikasi ini, saya ingin menghadirkan alat bantu interaktif yang mampu memvisualisasikan konsep abstrak seperti Tabel Distribusi, Uji Hipotesis, dan Teorema Limit Terpusat (CLT) agar lebih mudah dipahami dan menyenangkan untuk dipelajari.",
+                    text = "Melalui aplikasi ini, saya ingin menghadirkan alat bantu interaktif yang mampu memvisualisasikan konsep abstrak seperti Tabel Distribusi, Uji Hipotesis, dan Teorema Limit Terpusat (CLT) agar lebih mudah dipahami.",
                     style = MaterialTheme.typography.bodyMedium,
                     lineHeight = 22.sp
                 )
