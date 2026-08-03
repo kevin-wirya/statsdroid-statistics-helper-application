@@ -63,20 +63,18 @@ fun CltScreen(
         )
 
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Pilihan Dropdown Bentuk Populasi Awal
+        // dropdown
         Text("Population Shape (Bentuk Populasi Awal):", fontWeight = FontWeight.SemiBold)
         ExposedDropdownMenuBox(
             expanded = expanded,
             onExpandedChange = { expanded = !expanded }
         ) {
             val distNames = listOf(
-                "Uniform (Rata)",
-                "Exponential / Skewed (Miring)",
-                "Bimodal (Dua Puncak)"
+                "Uniform",
+                "Exponential/Skewed",
+                "Bimodal"
             )
             val currentText = distNames[uiState.selectedDistribution.ordinal]
-
             OutlinedTextField(
                 value = currentText,
                 onValueChange = {},
@@ -87,7 +85,6 @@ fun CltScreen(
                     .menuAnchor()
                     .fillMaxWidth()
             )
-
             ExposedDropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false }

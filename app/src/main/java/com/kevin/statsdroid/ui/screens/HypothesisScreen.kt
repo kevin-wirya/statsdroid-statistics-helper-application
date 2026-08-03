@@ -56,7 +56,7 @@ fun HypothesisScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Pilihan Jenis Uji Statistik: Z-Test vs t-Test (Radio Button)
+        // Pilihan Jenis Uji Statistik: Z-Test vs t-Test (Radio Button 1:1 proporsi)
         Text("Pilih Jenis Uji Statistik:", fontWeight = FontWeight.SemiBold)
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -64,21 +64,24 @@ fun HypothesisScreen(
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(end = 24.dp)
+                modifier = Modifier.weight(1f)
             ) {
                 RadioButton(
                     selected = uiState.testType == HypothesisTestType.Z_TEST,
                     onClick = { viewModel.onTestTypeChanged(HypothesisTestType.Z_TEST) }
                 )
-                Text("Z-Test (σ diketahui)")
+                Text("Z-Test (σ)")
             }
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.weight(1f)
+            ) {
                 RadioButton(
                     selected = uiState.testType == HypothesisTestType.T_TEST,
                     onClick = { viewModel.onTestTypeChanged(HypothesisTestType.T_TEST) }
                 )
-                Text("t-Test (s sampel)")
+                Text("t-Test (s)")
             }
         }
 
