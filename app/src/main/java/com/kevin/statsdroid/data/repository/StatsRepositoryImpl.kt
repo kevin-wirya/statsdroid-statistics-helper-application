@@ -7,38 +7,59 @@ import com.kevin.statsdroid.utils.calculator.HypothesisCalculator
 import com.kevin.statsdroid.utils.calculator.HypothesisResult
 import com.kevin.statsdroid.utils.calculator.NormalCalculator
 import com.kevin.statsdroid.utils.calculator.PoissonCalculator
+import com.kevin.statsdroid.utils.calculator.TailType
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class StatsRepositoryImpl @Inject constructor() : StatsRepository {
-    override fun calculateBinomialPmf(n: Int,p:Double, k:Int): Double =
+
+    override fun calculateBinomialPmf(n: Int, p: Double, k: Int): Double =
         BinomialCalculator.pmf(n, p, k)
-    override fun calculateBinomialCdfLower(n: Int,p:Double,k:Int): Double =
+
+    override fun calculateBinomialCdfLower(n: Int, p: Double, k: Int): Double =
         BinomialCalculator.cdfLower(n, p, k)
-    override fun calculateBinomialCdfUpper(n: Int,p:Double,k:Int): Double =
+
+    override fun calculateBinomialCdfUpper(n: Int, p: Double, k: Int): Double =
         BinomialCalculator.cdfUpper(n, p, k)
-    override fun calculatePoissonPmf(lambda:Double,k:Int): Double =
+
+    override fun calculatePoissonPmf(lambda: Double, k: Int): Double =
         PoissonCalculator.pmf(lambda, k)
-    override fun calculatePoissonCdfLower(lambda:Double,k:Int): Double =
+
+    override fun calculatePoissonCdfLower(lambda: Double, k: Int): Double =
         PoissonCalculator.cdfLower(lambda, k)
-    override fun calculatePoissonCdfUpper(lambda:Double,k:Int): Double =
+
+    override fun calculatePoissonCdfUpper(lambda: Double, k: Int): Double =
         PoissonCalculator.cdfUpper(lambda, k)
-    override fun calculateNormalCdf(z:Double): Double =
+
+    override fun calculateNormalCdf(z: Double): Double =
         NormalCalculator.cdf(z)
+
     override fun performZTestOneSample(
-        sampleMean:Double,
-        popMean:Double,
-        popStdDev:Double,
-        n:Int,
-        alpha:Double,
-        isTwoTailed:Boolean
-    ):HypothesisResult = HypothesisCalculator.zTestOneSample(
-        sampleMean,popMean,popStdDev,n,alpha,isTwoTailed
+        sampleMean: Double,
+        popMean: Double,
+        popStdDev: Double,
+        n: Int,
+        alpha: Double,
+        tailType: TailType
+    ): HypothesisResult = HypothesisCalculator.zTestOneSample(
+        sampleMean, popMean, popStdDev, n, alpha, tailType
     )
+
+    override fun performTTestOneSample(
+        sampleMean: Double,
+        popMean: Double,
+        sampleStdDev: Double,
+        n: Int,
+        alpha: Double,
+        tailType: TailType
+    ): HypothesisResult = HypothesisCalculator.tTestOneSample(
+        sampleMean, popMean, sampleStdDev, n, alpha, tailType
+    )
+
     override fun generateCltSampleMeans(
-        distribution:CltCalculator.DistributionType,
-        sampleSize:Int,
-        numSamples:Int
-    ): List<Double> = CltCalculator.generateSampleMeans(distribution,sampleSize,numSamples)
+        distribution: CltCalculator.DistributionType,
+        sampleSize: Int,
+        numSamples: Int
+    ): List<Double> = CltCalculator.generateSampleMeans(distribution, sampleSize, numSamples)
 }
