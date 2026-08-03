@@ -31,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kevin.statsdroid.ui.components.CltHistogramVisualizer
@@ -111,17 +112,45 @@ fun CltScreen(
             onValueChange = { viewModel.onSampleSizeChanged(it.toInt().toString()) },
             valueRange = 1f..100f
         )
-        // number of samples (M) filter chips
-        Text("Number of Samples (M): ${uiState.numSamplesInput}")
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            listOf("100", "500", "1000", "5000").forEach { mOption ->
-                FilterChip(
-                    selected = uiState.numSamplesInput == mOption,
-                    onClick = { viewModel.onNumSamplesChanged(mOption) },
-                    label = { Text("M = $mOption") }
-                )
-            }
+        // number of samples (M) filter chips (2 per baris, 1:1 proporsi)
+        Text("Number of Samples (M): ${uiState.numSamplesInput}", fontWeight = FontWeight.SemiBold)
+        Spacer(modifier = Modifier.height(4.dp))
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            FilterChip(
+                selected = uiState.numSamplesInput == "100",
+                onClick = { viewModel.onNumSamplesChanged("100") },
+                label = { Text("M = 100", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center) },
+                modifier = Modifier.weight(1f)
+            )
+            FilterChip(
+                selected = uiState.numSamplesInput == "500",
+                onClick = { viewModel.onNumSamplesChanged("500") },
+                label = { Text("M = 500", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center) },
+                modifier = Modifier.weight(1f)
+            )
         }
+        Spacer(modifier = Modifier.height(4.dp))
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            FilterChip(
+                selected = uiState.numSamplesInput == "1000",
+                onClick = { viewModel.onNumSamplesChanged("1000") },
+                label = { Text("M = 1000", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center) },
+                modifier = Modifier.weight(1f)
+            )
+            FilterChip(
+                selected = uiState.numSamplesInput == "5000",
+                onClick = { viewModel.onNumSamplesChanged("5000") },
+                label = { Text("M = 5000", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center) },
+                modifier = Modifier.weight(1f)
+            )
+        }
+
         Spacer(modifier = Modifier.height(16.dp))
         // action button
         Button(
