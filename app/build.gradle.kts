@@ -58,6 +58,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation("androidx.compose.ui:ui-text-google-fonts")
+    implementation("org.jsoup:jsoup:1.17.2")
     // hilt and navigation
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
