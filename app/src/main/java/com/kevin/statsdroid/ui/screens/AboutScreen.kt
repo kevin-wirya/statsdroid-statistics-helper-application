@@ -98,12 +98,6 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                     fontWeight = FontWeight.Bold
                 )
 
-                Text(
-                    text = "Mahasiswa Teknik Informatika ITB",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary
-                )
-
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Surface(
@@ -134,14 +128,14 @@ fun AboutScreen(modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Developer Info & Bio Card
+        // Bio card
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(20.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
         ) {
             Column(modifier = Modifier.padding(20.dp)) {
-                SectionHeader(icon = Icons.Default.Person, title = "Tentang Pembuat (About Me)")
+                SectionHeader(icon = Icons.Default.Person, title = "About Me")
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
@@ -154,14 +148,6 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                     text = "💡 Tertarik dan berfokus pada Logika Komputasi, Pengembangan Web Full-Stack, serta Strategi Algoritma untuk Pemrograman Kompetitif.",
                     style = MaterialTheme.typography.bodyMedium,
                     lineHeight = 22.sp
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "🏆 Prestasi: Finalis ICPC Asia Jakarta Regional Contest 2025 dan 2x Finalis Olimpiade Sains Nasional (OSN) Matematika.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    lineHeight = 22.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
