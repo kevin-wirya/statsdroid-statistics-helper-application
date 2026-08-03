@@ -14,7 +14,6 @@ object PoissonCaculator{
         for(i in 1..k)term*=lambda/i
         return term
     }
-
     fun cdfLower(lambda:Double,k:Int):Double{
         var sum=0.0
         for(i in 0..k)sum+=pmf(lambda,i)
