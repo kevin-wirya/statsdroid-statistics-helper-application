@@ -22,7 +22,7 @@
 - **Automated Results**: Computes exact Test Statistics ($z$, $t$, $\chi^2$, $F$), $p$-values, critical bounds, and presents unambiguous statistical decisions (*Reject $H_0$* or *Fail to Reject $H_0$*).
 
 ### 3. 🎲 Central Limit Theorem (CLT) Interactive Simulator (`CltScreen`)
-- **Live Empirical Simulation**: Simulates drawing samples from uniform or exponential distributions.
+- **Live Empirical Simulation**: Simulates drawing samples from uniform, exponential, or bimodal distributions.
 - **Configurable Parameters**: Quick sample count selection ($M = 100, 500, 1000, 5000$) and variable sample size ($N$).
 - **Live Canvas Visualizer**: Renders empirical sample mean histograms overlaid against theoretical Gaussian curves to demonstrate convergence in real-time.
 

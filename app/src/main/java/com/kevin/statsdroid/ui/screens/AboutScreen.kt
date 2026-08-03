@@ -17,7 +17,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Lightbulb
 import androidx.compose.material.icons.filled.Person
@@ -237,7 +236,7 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.height(6.dp))
 
                 MisiItem(number = "1.", text = "Mengembangkan keterampilan komputasional mahasiswa lewat mata kuliah yang diajarkan.")
-                MisiItem(number = "2.", text = "Meningkatkan kemampuan teoretis dan praktis dari mahasiswa dalam menyelesaikan permasalahan di dunia nyata.")
+                MisiItem(number = "2.", text = "Meningkatkan kemampuan teoretis dan practical dari mahasiswa dalam menyelesaikan permasalahan di dunia nyata.")
                 MisiItem(number = "3.", text = "Memberikan bantuan kepada mahasiswa yang sedang mengalami kesulitan dalam pembelajaran.")
             }
         }
