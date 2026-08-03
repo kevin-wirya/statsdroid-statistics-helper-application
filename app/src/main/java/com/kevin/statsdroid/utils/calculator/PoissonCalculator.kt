@@ -1,8 +1,8 @@
-package com.kevi.statsdroid.utils.calculator
+package com.kevin.statsdroid.utils.calculator
 
 import kotlin.math.exp
 
-object PoissonCaculator{
+object PoissonCalculator{
     private fun factorial(k:Int):Double{
         var res=1.0
         for(i in 1..k)res*=i
