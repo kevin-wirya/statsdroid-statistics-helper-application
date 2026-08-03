@@ -16,8 +16,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CloudDownload
+import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.Badge
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -41,6 +45,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -54,12 +59,15 @@ fun ReferenceScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var dropdownExpanded by remember { mutableStateOf(false) }
+
+    val filterOptions = listOf("Semua", "Google Drive", "Web Scraper")
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // header dan live scraper refresh button
+        // Header & Live Scraper Refresh Button
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -72,7 +80,7 @@ fun ReferenceScreen(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = if (uiState.isScrapedLive) "Live Scraped: Pak Rinaldi Munir (ITB)" else "Materi Probstat Pak Rinaldi Munir",
+                    text = "Sumber: Google Drive & Web Scraper Pak Rinaldi",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -90,9 +98,47 @@ fun ReferenceScreen(
                 }
             }
         }
+
         Spacer(modifier = Modifier.height(12.dp))
-        // dropdown pemilihan slide ppt/pdf
-        Text("Pilih Slide / Dokumen Materi:", fontWeight = FontWeight.SemiBold)
+
+        // source filter chips
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            filterOptions.forEach { filter ->
+                val isSelected = uiState.selectedSourceFilter == filter
+                val icon = when (filter) {
+                    "Google Drive" -> Icons.Default.Folder
+                    "Web Scraper" -> Icons.Default.Language
+                    else -> Icons.Default.CloudDownload
+                }
+
+                FilterChip(
+                    selected = isSelected,
+                    onClick = { viewModel.setSourceFilter(filter) },
+                    leadingIcon = {
+                        Icon(imageVector = icon, contentDescription = null, modifier = Modifier.size(16.dp))
+                    },
+                    label = {
+                        Text(
+                            text = filter,
+                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                            textAlign = TextAlign.Center,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    },
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // dropdown pemilihan slides
+        Text("Pilih Dokumen Materi:", fontWeight = FontWeight.SemiBold)
         ExposedDropdownMenuBox(
             expanded = dropdownExpanded,
             onExpandedChange = { dropdownExpanded = !dropdownExpanded }
@@ -102,13 +148,13 @@ fun ReferenceScreen(
                 value = selectedTitle,
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("Materi PDF / PPT") },
+                label = { Text("Dokumen / Slide") },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = dropdownExpanded) },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.PictureAsPdf,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.error
+                        tint = MaterialTheme.colorScheme.primary
                     )
                 },
                 modifier = Modifier
@@ -122,11 +168,19 @@ fun ReferenceScreen(
                 uiState.items.forEach { item ->
                     DropdownMenuItem(
                         text = {
-                            Text(
-                                text = item.title,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Badge(
+                                    containerColor = if (item.category == "Google Drive") MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.tertiaryContainer
+                                ) {
+                                    Text(item.category, style = MaterialTheme.typography.labelSmall)
+                                }
+                                Spacer(modifier = Modifier.size(8.dp))
+                                Text(
+                                    text = item.title,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
                         },
                         onClick = {
                             viewModel.selectItem(item)
@@ -136,8 +190,10 @@ fun ReferenceScreen(
                 }
             }
         }
+
         Spacer(modifier = Modifier.height(12.dp))
-        // quick category chips
+
+        // Quick Category Chips
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             items(uiState.items) { item ->
                 FilterChip(
@@ -153,8 +209,10 @@ fun ReferenceScreen(
                 )
             }
         }
+
         Spacer(modifier = Modifier.height(12.dp))
-        // in app-pdf/slide viewer
+
+        // In-App PDF / Slide Viewer
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -169,6 +227,7 @@ fun ReferenceScreen(
                     }
                     else -> "https://docs.google.com/gview?embedded=true&url=${item.pdfUrl}"
                 }
+
                 Box(modifier = Modifier.fillMaxSize()) {
                     AndroidView(
                         factory = { context ->
