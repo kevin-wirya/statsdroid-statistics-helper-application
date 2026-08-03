@@ -12,71 +12,83 @@ import javax.inject.Inject
 @HiltViewModel
 class LookupViewModel @Inject constructor(
     private val repository: StatsRepository
-):ViewModel(){
-    private val _uiState=MutableStateFlow(LookupUiState())
-    val uiState:StateFlow<LookupUiState>=_uiState.asStateFlow()
-    init{calculate()}
-    fun onDistributionSelected(type:DistributionType){
-        _uiState.update{it.copy(selectedDistribution=type)}
+) : ViewModel() {
+
+    private val _uiState = MutableStateFlow(LookupUiState())
+    val uiState: StateFlow<LookupUiState> = _uiState.asStateFlow()
+
+    init {
         calculate()
     }
-    fun onNInputChanged(input:String){
-        _uiState.update{it.copy(nInput=input)}
+
+    fun onDistributionSelected(type: DistributionType) {
+        _uiState.update { it.copy(selectedDistribution = type) }
         calculate()
     }
-    fun onPInputChanged(input:String){
-        _uiState.update{it.copy(pInput=input)}
+
+    fun onNInputChanged(input: String) {
+        _uiState.update { it.copy(nInput = input) }
         calculate()
     }
-    fun onKBinomialInputChanged(input:String){
-        _uiState.update{it.copy(kBinomialInput=input)}
+
+    fun onPInputChanged(input: String) {
+        _uiState.update { it.copy(pInput = input) }
         calculate()
     }
-    fun onLambdaInputChanged(input:String){
-        _uiState.update{it.copy(lambdaInput=input)}
+
+    fun onKBinomialInputChanged(input: String) {
+        _uiState.update { it.copy(kBinomialInput = input) }
         calculate()
     }
-    fun onKPoissonInputChanged(input:String){
-        _uiState.update{it.copy(kPoissonInput=input)}
+
+    fun onLambdaInputChanged(input: String) {
+        _uiState.update { it.copy(lambdaInput = input) }
         calculate()
     }
-    fun onZInputChanged(input:String){
-        _uiState.update{it.copy(zInput=input)}
+
+    fun onKPoissonInputChanged(input: String) {
+        _uiState.update { it.copy(kPoissonInput = input) }
         calculate()
     }
-    fun calculate(){
-        val state=_uiState.value
-        when(state.selectedDistribution){
-            DistributionType.BINOMIAL->{
-                val n=state.nInput.toIntOrNull()?: return
-                val p=state.pInput.toDoubleOrNull()?: return
-                val k=state.kBinomialInput.toIntOrNull()?: return
+
+    fun onZInputChanged(input: String) {
+        _uiState.update { it.copy(zInput = input) }
+        calculate()
+    }
+
+    fun calculate() {
+        val state = _uiState.value
+        when (state.selectedDistribution) {
+            DistributionType.BINOMIAL -> {
+                val n = state.nInput.toIntOrNull() ?: return
+                val p = state.pInput.toDoubleOrNull() ?: return
+                val k = state.kBinomialInput.toIntOrNull() ?: return
                 _uiState.update {
                     it.copy(
-                        resultPmf=repository.calculateBinomialPmf(n,p,k),
-                        resultCdfLower=repository.calculateBinomialCdfLower(n,p,k),
-                        resultCdfUpper=repository.calculateBinomialCdfUpper(n,p,k)
+                        resultPmf = repository.calculateBinomialPmf(n, p, k),
+                        resultCdfLower = repository.calculateBinomialCdfLower(n, p, k),
+                        resultCdfUpper = repository.calculateBinomialCdfUpper(n, p, k)
                     )
                 }
             }
-            DistributionType.POISSON->{
-                val lambda=state.lambdaInput.toDoubleOrNull()?: return
-                val k=state.kPoissonInput.toIntOrNull()?: return
+            DistributionType.POISSON -> {
+                val lambda = state.lambdaInput.toDoubleOrNull() ?: return
+                val k = state.kPoissonInput.toIntOrNull() ?: return
                 _uiState.update {
                     it.copy(
-                        resultPmf=repository.calculatePoissonPmf(lambda,k),
-                        resultCdfLower=repository.calculatePoissonCdfLower(lambda,k),
-                        resultCdfUpper=repository.calculatePoissonCdfUpper(lambda,k)
+                        resultPmf = repository.calculatePoissonPmf(lambda, k),
+                        resultCdfLower = repository.calculatePoissonCdfLower(lambda, k),
+                        resultCdfUpper = repository.calculatePoissonCdfUpper(lambda, k)
                     )
                 }
             }
-            DistributionType.NORMAL->{
-                val z=state.zInput.toDoubleOrNull()?: return
-                val cdfLower=repository.calculateNormalCdf(z)
+            DistributionType.NORMAL -> {
+                val z = state.zInput.toDoubleOrNull() ?: return
+                val cdfLower = repository.calculateNormalCdf(z)
                 _uiState.update {
                     it.copy(
-                        resultCdfLower=cdfLower,
-                        resultCdfUpper=1.0-cdfLower
+                        resultCdfLower = cdfLower,
+                        resultCdfUpper = 1.0 - cdfLower
                     )
                 }
             }

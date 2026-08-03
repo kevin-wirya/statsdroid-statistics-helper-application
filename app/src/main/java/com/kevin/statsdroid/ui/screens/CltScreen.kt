@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kevin.statsdroid.utils.calculator.CltCalculator
+import com.kevin.statsdroid.ui.components.CltHistogramVisualizer
 
 @Composable
 fun CltScreen(
@@ -35,20 +36,20 @@ fun CltScreen(
             .padding(16.dp)
     ){
         Text(
-            text = "Simulasi Central Limit Theorem",
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
+            text="Simulasi Central Limit Theorem",
+            style=MaterialTheme.typography.headlineMedium,
+            fontWeight=FontWeight.Bold
         )
         Text(
-            text = "Buktikan bahwa distribusi rata-rata sampel mendekati normal seiring bertambahnya n.",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            text="Buktikan bahwa distribusi rata-rata sampel mendekati normal seiring bertambahnya n.",
+            style=MaterialTheme.typography.bodyMedium,
+            color=MaterialTheme.colorScheme.onSurfaceVariant
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier=Modifier.height(16.dp))
         // pilihan bentuk populasi
-        val dists = listOf("Uniform", "Exponential")
-        val selectedIndex = uiState.selectedDistribution.ordinal
-        PrimaryTabRow(selectedTabIndex = selectedIndex) {
+        val dists=listOf("Uniform", "Exponential")
+        val selectedIndex=uiState.selectedDistribution.ordinal
+        PrimaryTabRow(selectedTabIndex=selectedIndex) {
             dists.forEachIndexed { idx, title ->
                 Tab(
                     selected = selectedIndex == idx,
@@ -56,26 +57,34 @@ fun CltScreen(
                         val newDist = CltCalculator.DistributionType.entries[idx]
                         viewModel.onDistributionChanged(newDist)
                     },
-                    text = { Text(title) }
+                    text={Text(title)}
                 )
             }
         }
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier=Modifier.height(16.dp))
         // slider ukuran sampel (n)
-        val nVal = uiState.sampleSizeInput.toFloatOrNull() ?: 30f
+        val nVal=uiState.sampleSizeInput.toFloatOrNull()?:30f
         Text("Ukuran sampel (n): ${nVal.toInt()}")
         Slider(
-            value = nVal.coerceIn(2f, 100f),
-            onValueChange = { viewModel.onSampleSizeChanged(it.toInt().toString()) },
-            valueRange = 2f..100f
+            value=nVal.coerceIn(2f,100f),
+            onValueChange={viewModel.onSampleSizeChanged(it.toInt().toString())},
+            valueRange=2f..100f
         )
         // slider jumlah iterasi sampel (M)
-        val mVal = uiState.numSamplesInput.toFloatOrNull() ?: 500f
+        val mVal=uiState.numSamplesInput.toFloatOrNull()?:500f
         Text("Jumlah iterasi sampel (M): ${mVal.toInt()}")
         Slider(
-            value = mVal.coerceIn(100f, 2000f),
-            onValueChange = { viewModel.onNumSamplesChanged(it.toInt().toString()) },
-            valueRange = 100f..2000f
+            value=mVal.coerceIn(100f,2000f),
+            onValueChange={viewModel.onNumSamplesChanged(it.toInt().toString())},
+            valueRange=100f..2000f
         )
+        Spacer(modifier=Modifier.height(16.dp))
+        Text(
+            text="Histogram Distribusi Rata-rata Sampel",
+            style=MaterialTheme.typography.titleMedium,
+            fontWeight=FontWeight.Bold
+        )
+        Spacer(modifier=Modifier.height(8.dp))
+        CltHistogramVisualizer(sampleMeans=uiState.sampleMeans)
     }
 }
