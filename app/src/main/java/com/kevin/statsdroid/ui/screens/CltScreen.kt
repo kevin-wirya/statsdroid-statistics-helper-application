@@ -15,6 +15,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FilterChip
@@ -82,7 +83,7 @@ fun CltScreen(
                 label = { Text("Bentuk Populasi") },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                 modifier = Modifier
-                    .menuAnchor()
+                    .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, enabled = true)
                     .fillMaxWidth()
             )
             ExposedDropdownMenu(
@@ -102,8 +103,7 @@ fun CltScreen(
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Slider Sample Size (n)
+        // slider sample size
         val nVal = uiState.sampleSizeInput.toFloatOrNull() ?: 30f
         Text("Sample Size (n): ${nVal.toInt()}")
         Slider(
@@ -111,8 +111,7 @@ fun CltScreen(
             onValueChange = { viewModel.onSampleSizeChanged(it.toInt().toString()) },
             valueRange = 1f..100f
         )
-
-        // Number of Samples (M) Filter Chips
+        // number of samples (M) filter chips
         Text("Number of Samples (M): ${uiState.numSamplesInput}")
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf("100", "500", "1000", "5000").forEach { mOption ->
@@ -123,20 +122,16 @@ fun CltScreen(
                 )
             }
         }
-
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Action Button
+        // action button
         Button(
             onClick = { viewModel.generateSimulation() },
             modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Simulate / Draw Samples")
+        ){
+            Text("Simulate samples")
         }
-
         Spacer(modifier = Modifier.height(20.dp))
-
-        // Live Summary Metrics Card
+        // live summary metrics card
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
@@ -155,12 +150,10 @@ fun CltScreen(
                 Text("Standard Error (SE = σ / √n): ${String.format(Locale.US, "%.4f", uiState.standardError)}")
             }
         }
-
         Spacer(modifier = Modifier.height(20.dp))
-
-        // Grafik 1: Original Population Distribution
+        // grafik 1: original population distribution
         Text(
-            text = "Grafik 1: Original Population Distribution (Populasi Asli)",
+            text = "Grafik 1: Original Population Distribution",
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold
         )
@@ -169,12 +162,10 @@ fun CltScreen(
             sampleMeans = uiState.populationData,
             barColor = MaterialTheme.colorScheme.secondary
         )
-
         Spacer(modifier = Modifier.height(20.dp))
-
-        // Grafik 2: Sampling Distribution of Sample Means
+        // grafik 2: sampling distribution of sample means
         Text(
-            text = "Grafik 2: Sampling Distribution of Sample Means (Distribusi Rata-Rata x̄)",
+            text = "Grafik 2: Sampling Distribution of Sample Means",
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold
         )

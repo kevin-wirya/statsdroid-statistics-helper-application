@@ -13,49 +13,39 @@ import javax.inject.Inject
 class LookupViewModel @Inject constructor(
     private val repository: StatsRepository
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(LookupUiState())
     val uiState: StateFlow<LookupUiState> = _uiState.asStateFlow()
-
-    init {
+    init{
         calculate()
     }
-
     fun onDistributionSelected(type: DistributionType) {
         _uiState.update { it.copy(selectedDistribution = type) }
         calculate()
     }
-
     fun onNInputChanged(input: String) {
         _uiState.update { it.copy(nInput = input) }
         calculate()
     }
-
     fun onPInputChanged(input: String) {
         _uiState.update { it.copy(pInput = input) }
         calculate()
     }
-
     fun onKBinomialInputChanged(input: String) {
         _uiState.update { it.copy(kBinomialInput = input) }
         calculate()
     }
-
     fun onLambdaInputChanged(input: String) {
         _uiState.update { it.copy(lambdaInput = input) }
         calculate()
     }
-
     fun onKPoissonInputChanged(input: String) {
         _uiState.update { it.copy(kPoissonInput = input) }
         calculate()
     }
-
     fun onZInputChanged(input: String) {
         _uiState.update { it.copy(zInput = input) }
         calculate()
     }
-
     fun calculate() {
         val state = _uiState.value
         when (state.selectedDistribution) {

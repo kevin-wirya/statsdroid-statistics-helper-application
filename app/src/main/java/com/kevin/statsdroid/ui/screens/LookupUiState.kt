@@ -8,16 +8,16 @@ enum class DistributionType{
 
 data class LookupUiState(
     val selectedDistribution:DistributionType=DistributionType.BINOMIAL,
-    // Parameter Binomial
+    // parameter binomial
     val nInput:String="10",
     val pInput:String="0.5",
     val kBinomialInput:String="5",
-    // Parameter Poisson
+    // parameter poisson
     val lambdaInput:String="3.0",
     val kPoissonInput:String="2",
-    // Parameter Normal
+    // parameter normal
     val zInput:String="1.96",
-    // Hasil Perhitungan
+    // hasil
     val resultPmf:Double=0.0,
     val resultCdfLower:Double=0.0,
     val resultCdfUpper:Double=0.0,

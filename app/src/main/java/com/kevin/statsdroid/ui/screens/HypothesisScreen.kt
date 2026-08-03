@@ -34,9 +34,8 @@ import java.util.Locale
 fun HypothesisScreen(
     viewModel: HypothesisViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
-) {
+){
     val uiState by viewModel.uiState.collectAsState()
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -53,10 +52,8 @@ fun HypothesisScreen(
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Pilihan Jenis Uji Statistik: Z-Test vs t-Test (Radio Button 1:1 proporsi)
+        // pilihan jenis uji statistik
         Text("Pilih Jenis Uji Statistik:", fontWeight = FontWeight.SemiBold)
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -68,73 +65,66 @@ fun HypothesisScreen(
             ) {
                 RadioButton(
                     selected = uiState.testType == HypothesisTestType.Z_TEST,
-                    onClick = { viewModel.onTestTypeChanged(HypothesisTestType.Z_TEST) }
+                    onClick = {viewModel.onTestTypeChanged(HypothesisTestType.Z_TEST)}
                 )
                 Text("Z-Test (σ)")
             }
-
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.weight(1f)
-            ) {
+            ){
                 RadioButton(
                     selected = uiState.testType == HypothesisTestType.T_TEST,
-                    onClick = { viewModel.onTestTypeChanged(HypothesisTestType.T_TEST) }
+                    onClick = {viewModel.onTestTypeChanged(HypothesisTestType.T_TEST)}
                 )
                 Text("t-Test (s)")
             }
         }
-
         Spacer(modifier = Modifier.height(12.dp))
-
-        // Pilihan Tail Type (H_a)
+        // pilihan tail type
         Text("Tail Type (Hₐ):", fontWeight = FontWeight.SemiBold)
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth()
-        ) {
+        ){
             FilterChip(
                 selected = uiState.tailType == TailType.TWO_TAILED,
-                onClick = { viewModel.onTailTypeChanged(TailType.TWO_TAILED) },
-                label = { Text("Two-tailed (≠)") }
+                onClick = {viewModel.onTailTypeChanged(TailType.TWO_TAILED)},
+                label = {Text("Two-tailed (≠)")}
             )
             FilterChip(
                 selected = uiState.tailType == TailType.RIGHT_TAILED,
-                onClick = { viewModel.onTailTypeChanged(TailType.RIGHT_TAILED) },
-                label = { Text("Right (>)") }
+                onClick = {viewModel.onTailTypeChanged(TailType.RIGHT_TAILED)},
+                label = {Text("Right (>)")}
             )
             FilterChip(
                 selected = uiState.tailType == TailType.LEFT_TAILED,
-                onClick = { viewModel.onTailTypeChanged(TailType.LEFT_TAILED) },
-                label = { Text("Left (<)") }
+                onClick = {viewModel.onTailTypeChanged(TailType.LEFT_TAILED)},
+                label = {Text("Left (<)")}
             )
         }
-
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Input Sliders
+        // input slider
         val sampleMeanVal = uiState.sampleMeanInput.toFloatOrNull() ?: 105f
         Text("Sample Mean (x̄): ${String.format(Locale.US, "%.1f", sampleMeanVal)}")
         Slider(
             value = sampleMeanVal.coerceIn(-100f, 100f),
-            onValueChange = { viewModel.onSampleMeanChanged(String.format(Locale.US, "%.1f", it)) },
+            onValueChange = {viewModel.onSampleMeanChanged(String.format(Locale.US, "%.1f", it))},
             valueRange = -100f..100f
         )
-
         val popMeanVal = uiState.popMeanInput.toFloatOrNull() ?: 100f
         Text("Hypothesized Mean (μ₀): ${String.format(Locale.US, "%.1f", popMeanVal)}")
         Slider(
             value = popMeanVal.coerceIn(-100f, 100f),
-            onValueChange = { viewModel.onPopMeanChanged(String.format(Locale.US, "%.1f", it)) },
+            onValueChange = {viewModel.onPopMeanChanged(String.format(Locale.US, "%.1f", it))},
             valueRange = -100f..100f
         )
-
         if (uiState.testType == HypothesisTestType.Z_TEST) {
             val popStdDevVal = uiState.popStdDevInput.toFloatOrNull() ?: 15f
             Text("Population Std Dev (σ): ${String.format(Locale.US, "%.1f", popStdDevVal)}")
             Slider(
                 value = popStdDevVal.coerceIn(0.1f, 50f),
-                onValueChange = { viewModel.onPopStdDevChanged(String.format(Locale.US, "%.1f", it)) },
+                onValueChange = {viewModel.onPopStdDevChanged(String.format(Locale.US, "%.1f", it))},
                 valueRange = 0.1f..50f
             )
         } else {
@@ -142,42 +132,36 @@ fun HypothesisScreen(
             Text("Sample Std Dev (s): ${String.format(Locale.US, "%.1f", sampleStdDevVal)}")
             Slider(
                 value = sampleStdDevVal.coerceIn(0.1f, 50f),
-                onValueChange = { viewModel.onSampleStdDevChanged(String.format(Locale.US, "%.1f", it)) },
+                onValueChange = {viewModel.onSampleStdDevChanged(String.format(Locale.US, "%.1f", it))},
                 valueRange = 0.1f..50f
             )
         }
-
         val minN = if (uiState.testType == HypothesisTestType.Z_TEST) 1f else 2f
         val nVal = uiState.nInput.toFloatOrNull() ?: 30f
         Text("Sample Size (n): ${nVal.toInt()}${if (uiState.testType == HypothesisTestType.T_TEST) " (df = ${nVal.toInt() - 1})" else ""}")
         Slider(
             value = nVal.coerceIn(minN, 500f),
-            onValueChange = { viewModel.onNChanged(it.toInt().toString()) },
+            onValueChange = {viewModel.onNChanged(it.toInt().toString())},
             valueRange = minN..500f
         )
-
         val alphaVal = uiState.alphaInput.toFloatOrNull() ?: 0.05f
         Text("Significance Level (α): ${String.format(Locale.US, "%.2f", alphaVal)}")
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf("0.01", "0.05", "0.10").forEach { valAlpha ->
                 FilterChip(
                     selected = uiState.alphaInput == valAlpha,
-                    onClick = { viewModel.onAlphaChanged(valAlpha) },
-                    label = { Text("α = $valAlpha") }
+                    onClick = {viewModel.onAlphaChanged(valAlpha)},
+                    label = {Text("α = $valAlpha")}
                 )
             }
         }
-
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Visualizer Bell Curve & Rejection Region
+        // visualizer bell curve & rejection region
         uiState.result?.let { res ->
             NormalCurveVisualizer(zCutoff = res.testStatistic)
         }
-
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Result Card
+        // result card
         uiState.result?.let { res ->
             val isRejected = res.isRejected
             val cardColor = if (isRejected) {
@@ -190,11 +174,10 @@ fun HypothesisScreen(
             } else {
                 MaterialTheme.colorScheme.onPrimaryContainer
             }
-
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = cardColor)
-            ) {
+            ){
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
                         text = "Keputusan Uji Hipotesis",
@@ -204,11 +187,11 @@ fun HypothesisScreen(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Statistik Hitung (${if (uiState.testType == HypothesisTestType.Z_TEST) "Z" else "t"}) = ${String.format(Locale.US, "%.4f", res.testStatistic)}",
+                        text = "Statistik hitung (${if (uiState.testType == HypothesisTestType.Z_TEST) "Z" else "t"}) = ${String.format(Locale.US, "%.4f", res.testStatistic)}",
                         color = textColor
                     )
                     res.degreesOfFreedom?.let { df ->
-                        Text(text = "Degrees of Freedom (df) = $df", color = textColor)
+                        Text(text = "Degrees of freedom (df) = $df", color = textColor)
                     }
                     Text(
                         text = "p-value = ${String.format(Locale.US, "%.4f", res.pValue)}",
